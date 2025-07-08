@@ -13,3 +13,6 @@
 => npm i emoji-picker-react
 => npm i socket.io-client
 => npm i dotenv
+
+:: Video Calling ::
+=> npm i @zegocloud/zego-uikit-prebuilt zego-zim-web@2.16.0 --save 

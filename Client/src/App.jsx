@@ -12,7 +12,7 @@ import { setOnlineUser, setSocket } from './Redux/UserSlice'
 import { SERVER_URL } from './main'
 
 function App() {
-  
+
   const dispatch = useDispatch();
   const { userdata, isLoading } = useSelector(state => state.user || {});
 
@@ -133,11 +133,11 @@ function App() {
     {
       path: "/",
       element:
-        <div>
-          {
-            userdata ? <Home /> : <Login />
-          }
-        </div>
+      <div>
+        {
+          userdata ? <Home /> : <Login />
+        }
+      </div>
     },
 
     {
@@ -148,7 +148,7 @@ function App() {
             userdata ? <Logout /> : <Login />
           }
         </div>
-    },
+    }
   ])
 
   return (

@@ -70,14 +70,14 @@ const Profile = () => {
             <div className=' flex justify-center items-center relative'>
                 <img src="backArrow.png" className="fixed h-8 w-7 top-2 left-2 cursor-pointer" onClick={handleReturnHome} />
                 <div className='rounded-full bg-white shadow-lg border-4 border-green-800 relative flex justify-center items-center'>
-                    <div className='sm:w-[200px] sm:h-[200px] h-[170px] w[170px] rounded-full overflow-hidden flex items-center justify-center'>
-                        <img src={frontendImage || "ChatlyDp.png"} className="overflow-hidden h-full" />
-                    </div>
+                    <div className='sm:w-[200px] sm:h-[200px] h-[170px] w-[170px] rounded-full overflow-hidden flex items-center justify-center cursor-pointer'>
+                        <img src={frontendImage || "ChatlyDp.png"} className="overflow-hidden sm:w-[200px] sm:h-[200px] h-[170px] w-[170px] " onClick={() => window.open(frontendImage, "_blank")} />
+                    </div> 
 
                     {/* Handle Upload Image */}
                     <div>
                         <input type="file" accept="image/*" ref={image} onChange={handleImageUpload} hidden src='camera.png' />
-                        <img src="camera.png" className='absolute sm:bottom-2 md:right-3 bottom-1 right-2 sm:h-[40px] sm:w-[40px] h-[35px] w-[35px] border-2 border-green-800 cursor-pointer rounded-full p-0.5 bg-green-100' onClick={() => image.current.click()} />
+                        <img src="camera.png" className='absolute sm:bottom-2 bottom-1 right-3 sm:h-[40px] sm:w-[40px] h-[35px] w-[35px] border-2 border-green-800 cursor-pointer rounded-full p-0.5 bg-green-100' onClick={() => image.current.click()} />
                     </div>
                 </div>
             </div>
