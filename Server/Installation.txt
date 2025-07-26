@@ -13,5 +13,3 @@
 :: Deploy On Vercel ::
 => npm install -g vercel
 => vercel
-
-mongodb+srv://kananikhilan:iAq4grEp8hFafNC6@clusterone.vo1lzxu.mongodb.net/RealTimeChatApp

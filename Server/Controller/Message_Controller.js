@@ -62,7 +62,7 @@ const GetMessages = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            Messages: conversation?.messages
+            Messages: conversation?.messages || []
         })
     }
 

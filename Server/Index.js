@@ -28,8 +28,8 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/message", messageRoute);
-
+ 
 server.listen(port, () => {
     connectDB();
     console.log(`Your App Running In Port Number ${port}...`);
-})
+}) 
