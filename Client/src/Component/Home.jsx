@@ -189,13 +189,13 @@ const Home = () => {
                                 {onlineUser?.includes(selectedUser?._id) && <div className='absolute bottom-0.5 left-15 h-3 w-3 rounded-full bg-green-500'></div>}
                                 <h1 className='text-xl font-bold text-black mt-[-15px]'>{selectedUser?.fullName || "User"}</h1>
                             </div>
-                            {
+                            {/* {
                                 selectedUser &&
                                 <div className='flex gap-2 '>
                                     <img src="MicroPhone.png" className='h-10 w-10 rounded-full bg-green-300 cursor-pointer' onClick={() => initiateCall(ZegoUIKitPrebuilt.InvitationTypeVoiceCall)} />
                                     <img src="VcameraLogo.png" className='h-10 w-10 rounded-full bg-green-300 cursor-pointer' onClick={() => initiateCall(ZegoUIKitPrebuilt.InvitationTypeVoiceCall)} />
                                 </div>
-                            }
+                            } */}
                         </div> : <div className='h-[100vh] border-green-300 bg-green-50 flex flex-col items-center justify-center'>
                             <div className='flex flex-col gap-4'>
                                 <h1 className='font-extrabold text-5xl text-green-800'>Welcome To Messenger</h1>
