@@ -6,7 +6,7 @@ const SenderMessage = ({ image, message }) => {
 
     return (
         <div>
-            <div className='bg-green-300 w-fit p-1.5 rounded-l-lg rounded-br-lg relative right-2 ml-auto'>
+            <div className='bg-green-300 mt-1.5 w-fit p-1.5 rounded-l-lg rounded-br-lg relative right-2 ml-auto'>
                 {image && <img src={image} onClick={() => window.open(image, "_blank")} className='cursor-pointer h-50 w-50 rounded-md' alt="sent image" />}
                 {message && <span>{message}</span>}
             </div>

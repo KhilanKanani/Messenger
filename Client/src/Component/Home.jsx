@@ -35,7 +35,7 @@ const Home = () => {
     const Userdata = useSelector(state => state.user.userdata);
     const otherUserData = useSelector(state => state.user.otherUserData);
     const selectedUser = useSelector(state => state.user?.selectedUser);
-    const filterData = otherUserData?.user.filter((otherUser) => otherUser?.fullName.toLowerCase().includes(SearchTerm.toLowerCase()));
+    const filterData = otherUserData?.user?.filter((otherUser) => otherUser?.fullName.toLowerCase().includes(SearchTerm.toLowerCase()));
     const { messages } = useSelector(state => state.message);
     const { socket, onlineUser } = useSelector(state => state.user);
 
@@ -73,12 +73,6 @@ const Home = () => {
 
     const handleSendMessage = async () => {
         try {
-
-            if (input === "" && frontendImage === "") {
-                toast.error("Please Typing...");
-                return;
-            }
-
             let formData = new FormData();
 
             formData.append("message", input);
@@ -131,7 +125,7 @@ const Home = () => {
 
                     <div className='flex gap-2 mt-[-6px] ml-[50px] xl:w-[91%] lg:w-[82%] md:w-[93%] w-[83.5%] overflow-scroll cursor-pointer outline-0'>
                         {
-                            !search && otherUserData?.user.map((otherUser) => (
+                            !search && otherUserData?.user?.map((otherUser) => (
                                 onlineUser?.includes(otherUser?._id) &&
                                 <div key={otherUser?._id} className="flex flex-col items-center gap-1 py-2" onClick={() => dispatch(setSelectedUser(otherUser))}>
                                     <div className='relative w-10'>
@@ -178,11 +172,11 @@ const Home = () => {
             </div>
 
             {/* :: MessageBar :: */}
-            <div className='lg:w-[70%] border-l-1 border-green-500 lg:flex hidden h-[100vh] bg-green-50 flex-col justify-between'>
+            <div className='lg:w-[70%] border-l-1 relative border-green-500 lg:flex hidden h-[100vh] bg-green-50 flex-col justify-between'>
                 {/* :: Top :: */}
-                <div>
+                <div className=''>
                     {
-                        selectedUser ? <div className='bg-green-200 h-[70px] border-b-1 border-green-500 rounded-b-2xl flex items-center justify-between pr-5 pl-5'>
+                        selectedUser ? <div className=' bg-green-200 h-[70px] border-b-1 border-green-500 rounded-b-2xl flex items-center justify-between pr-5 pl-5'>
                             <div className='flex items-center gap-2 relative'>
                                 <img src="backArrow.png" className="h-8 w-5 rounded-full cursor-pointer" onClick={() => (dispatch(setSelectedUser(null)), setfrontendImage(""), setshowEmoji(false))} />
                                 <img src={selectedUser?.image || "ChatlyDp.png"} className="h-11 w-11 rounded-full bg-white cursor-pointer" onClick={() => window.open(selectedUser?.image, "_blank")} />
@@ -207,7 +201,7 @@ const Home = () => {
                 </div>
 
                 {/* :: Messages :: */}
-                <div ref={scrollMsgDesktop} className='outline-0 h-[80%] flex flex-col gap-1 overflow-auto' onClick={() => setshowEmoji(false)}>
+                <div ref={scrollMsgDesktop} className='outline-0 h-[80%] flex flex-col overflow-auto' onClick={() => setshowEmoji(false)}>
                     {
                         messages?.length > 0 && messages?.map(msg => (
                             msg.sender === Userdata?.user?._id ?
@@ -217,31 +211,34 @@ const Home = () => {
                     }
                 </div>
 
-                {/* :: Down :: */}
-                <div className='flex items-center justify-center ml-2 mr-2 relative'>
+                {/* :: Bottom - Input Area :: */}
+                {selectedUser && <div className='relative px-2 py-2.5 flex items-center gap-2 border-t border-green-500 bg-green-100'>
                     <input type="file" accept='image/*' ref={image} onChange={handleUploadImage} hidden />
-                    {
-                        frontendImage && <img src={frontendImage} className='h-15 w-15 absolute bottom-17 left-12 cursor-pointer bg-green-200' />
-                    }
-                    {
-                        selectedUser && <img src="ImageLogo.png" className='rounded-full h-6 w-6 cursor-pointer relative bottom-2' onClick={() => (image.current.click(), setshowEmoji(false))} />
-                    }
-                    {
-                        showEmoji && <div className='absolute bottom-17 left-10'><EmojiPicker width={300} height={350} onEmojiClick={handleEmojiClick} /></div>
-                    }
-                    {
-                        selectedUser &&
-                        <img src="thinking.png" className='ml-1 relative bottom-2 h-12.5 w-12 p-2 bg-green-100 rounded-l-full border-l-1 border-t-1 border-b-1 border-green-800 cursor-pointer' onClick={() => setshowEmoji(show => !show)} />
-                    }
-                    {
-                        selectedUser &&
-                        <input type="text" placeholder='Type a message...' value={input} onChange={(e) => (setinput(e.target.value), setshowEmoji(false))} className=' w-full outline-0 mb-4 py-3 bg-green-100 border-t-1 border-b-1 border-green-800' onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()} />
-                    }
-                    {
-                        selectedUser &&
-                        <img src="SendLogo.png" className='relative bottom-2 bg-green-100 cursor-pointer h-12.5 w-12 p-3 rounded-r-full border-t-1 border-b-1 border-r-1 border-green-800' onClick={handleSendMessage} />
-                    }
-                </div>
+
+                    {frontendImage && (
+                        <img src={frontendImage} className='h-12 w-12 absolute left-2 bottom-16 bg-green-200' />
+                    )}
+
+                    {showEmoji && (
+                        <div className='absolute bottom-16 left-2 z-20'>
+                            <EmojiPicker width={250} height={350} onEmojiClick={handleEmojiClick} />
+                        </div>
+                    )}
+
+                    <img src="ImageLogo.png" className='h-6 w-6 cursor-pointer' onClick={() => (image.current.click(), setshowEmoji(false))} />
+                    <img src="thinking.png" className='h-10 w-10 p-1 bg-green-200 rounded-full cursor-pointer' onClick={() => setshowEmoji(s => !s)} />
+
+                    <input
+                        type="text"
+                        placeholder='Type a message...'
+                        value={input}
+                        onChange={(e) => (setinput(e.target.value), setshowEmoji(false))}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                        className='flex-1 outline-none px-3 py-2 rounded-md bg-green-100 border border-green-400'
+                    />
+
+                    <img src="SendLogo.png" className='h-10 w-10 p-2 rounded-full bg-green-300 cursor-pointer' onClick={handleSendMessage} />
+                </div>}
             </div>
 
             {/* :: MoblieSize */}
@@ -249,69 +246,54 @@ const Home = () => {
                 {
                     selectedUser &&
                     <div className='h-[100vh] w-[100vw] flex flex-col justify-between bg-green-50'>
-                        {/* :: Top :: */}
-                        <div>
-                            {
-                                selectedUser ? <div className='bg-green-200 mt-auto h-[70px] border-b-1 border-green-500 rounded-b-2xl flex items-center pl-5'>
-                                    <div className='flex items-center gap-2 relative'>
-                                        <img src="backArrow.png" className="h-8 w-5 rounded-full cursor-pointer" onClick={() => (dispatch(setSelectedUser(null)), setfrontendImage(""), setshowEmoji(false))} />
-                                        <img src={selectedUser?.image || "ChatlyDp.png"} className="h-11 w-11 rounded-full bg-white cursor-pointer" onClick={() => window.open(selectedUser?.image, "_blank")} />
-                                        {onlineUser?.includes(selectedUser?._id) && <div className='absolute bottom-0.5 left-15 h-3 w-3 rounded-full bg-green-500'></div>}
-                                        <h1 className='text-xl font-bold text-black mt-[-15px]'>{selectedUser?.fullName || "User"}</h1>
-                                    </div>
-                                    {/* {
-                                    selectedUser &&
-                                    <div className='flex gap-2 '>
-                                        <img src="MicroPhone.png" className='h-10 w-10 rounded-full bg-green-300 cursor-pointer' onClick={() => <Call callingType={ZegoUIKitPrebuilt.InvitationTypeVideoCall}/>} />
-                                        <img src="VcameraLogo.png" className='h-10 w-10 rounded-full bg-green-300 cursor-pointer' onClick={() => Call(ZegoUIKitPrebuilt.InvitationTypeVideoCall)} />
-                                    </div>
-                                } */}
-                                </div> : <div className='h-[100vh] border-green-300 bg-green-50 flex flex-col items-center justify-center'>
-                                    <div className='flex flex-col gap-4'>
-                                        <h1 className='font-extrabold text-5xl text-green-800'>Welcome To Messenger</h1>
-                                        <p className='text-lg'>Chat Friendly...</p>
-                                        <p className='text-lg'>&copy;2025 - Present Kk's Pvt Ltd. All Right Reserved</p>
-                                    </div>
-                                </div>
-                            }
+                        {/* :: Top - User Info :: */}
+                        <div className='flex items-center gap-2 bg-green-200 h-[70px] px-4 border-b border-green-500 z-10'>
+                            <img src="backArrow.png" className="h-8 w-5 cursor-pointer" onClick={() => (dispatch(setSelectedUser(null)), setfrontendImage(""), setshowEmoji(false))} />
+                            <img src={selectedUser?.image || "ChatlyDp.png"} className="h-11 w-11 rounded-full bg-white cursor-pointer" onClick={() => window.open(selectedUser?.image, "_blank")} />
+                            {onlineUser?.includes(selectedUser?._id) && <div className='absolute bottom-0.5 left-15 h-3 w-3 rounded-full bg-green-500'></div>}
+                            <h1 className='text-xl font-bold text-black'>{selectedUser?.fullName || "User"}</h1>
                         </div>
 
-                        {/* :: Messages :: */}
-                        <div ref={scrollMsgMobile} className='h-[80%] flex flex-col gap-3 overflow-auto' onClick={() => setshowEmoji(false)} onKeyDown={(e) => { e.key === 'Backspace' && navigate("/") }}>
-                            {
-                                messages?.length > 0 && messages?.map(msg => (
-                                    msg.sender == Userdata?.user?._id ?
-                                        <SenderMessage key={msg._id} image={msg.image} message={msg.message} /> :
-                                        <ReceiverMessage key={msg._id} image={msg.image} message={msg.message} />
-
-                                ))
-                            }
+                        {/* :: Middle - Scrollable Messages :: */}
+                        <div
+                            ref={scrollMsgMobile}
+                            className='flex-1 overflow-y-auto px-3  py-2'
+                            onClick={() => setshowEmoji(false)}
+                        >
+                            {messages?.length > 0 && messages.map(msg =>
+                                msg.sender == Userdata?.user?._id ?
+                                    <SenderMessage key={msg._id} image={msg.image} message={msg.message} /> :
+                                    <ReceiverMessage key={msg._id} image={msg.image} message={msg.message} />
+                            )}
                         </div>
 
-                        {/* :: Down :: */}
-                        <div className='flex items-center justify-center ml-2 mr-2 relative '>
+                        {/* :: Bottom - Input Area :: */}
+                        <div className='relative px-2 py-2.5 flex items-center gap-2 border-t border-green-500 bg-green-100'>
                             <input type="file" accept='image/*' ref={image} onChange={handleUploadImage} hidden />
-                            {
-                                frontendImage && <img src={frontendImage} className='h-15 w-15 absolute bottom-17 left-11 cursor-pointer bg-green-200' />
-                            }
-                            {
-                                selectedUser && <img src="ImageLogo.png" className='rounded-full h-6 w-6 cursor-pointer relative bottom-2' onClick={() => (image.current.click(), setshowEmoji(false))} />
-                            }
-                            {
-                                showEmoji && <div className='absolute bottom-17 left-10'><EmojiPicker width={250} height={350} onEmojiClick={handleEmojiClick} /></div>
-                            }
-                            {
-                                selectedUser &&
-                                <img src="thinking.png" className='ml-1 relative bottom-2 h-12.5 w-12 p-2 bg-green-100 rounded-l-full border-l-1 border-t-1 border-b-1 border-green-800 cursor-pointer' onClick={() => setshowEmoji(show => !show)} />
-                            }
-                            {
-                                selectedUser &&
-                                <input type="text" placeholder='Type a message...' value={input} onChange={(e) => (setinput(e.target.value), setshowEmoji(false))} className=' w-full outline-0 mb-4 py-3 bg-green-100 border-t-1 border-b-1 border-green-800' onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()} />
-                            }
-                            {
-                                selectedUser &&
-                                <img src="SendLogo.png" className='relative bottom-2 bg-green-100 cursor-pointer h-12.5 w-12 p-3 rounded-r-full border-t-1 border-b-1 border-r-1 border-green-800' onClick={handleSendMessage} />
-                            }
+
+                            {frontendImage && (
+                                <img src={frontendImage} className='h-12 w-12 absolute left-2 bottom-16 bg-green-200' />
+                            )}
+
+                            {showEmoji && (
+                                <div className='absolute bottom-16 left-2 z-20'>
+                                    <EmojiPicker width={250} height={350} onEmojiClick={handleEmojiClick} />
+                                </div>
+                            )}
+
+                            <img src="ImageLogo.png" className='h-6 w-6 cursor-pointer' onClick={() => (image.current.click(), setshowEmoji(false))} />
+                            <img src="thinking.png" className='h-10 w-10 p-1 bg-green-200 rounded-full cursor-pointer' onClick={() => setshowEmoji(s => !s)} />
+
+                            <input
+                                type="text"
+                                placeholder='Type a message...'
+                                value={input}
+                                onChange={(e) => (setinput(e.target.value), setshowEmoji(false))}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                                className='flex-1 outline-none px-3 py-2 rounded-md bg-green-100 border border-green-400'
+                            />
+
+                            <img src="SendLogo.png" className='h-10 w-10 p-2 rounded-full bg-green-300 cursor-pointer' onClick={handleSendMessage} />
                         </div>
                     </div>
                 }
