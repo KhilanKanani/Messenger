@@ -75,7 +75,7 @@ const Home = () => {
         try {
             let formData = new FormData();
 
-            formData.append("message", input);
+            formData.append("message", input.trim());
             if (backendImage) {
                 formData.append("image", backendImage)
             }
@@ -231,13 +231,15 @@ const Home = () => {
                     <input
                         type="text"
                         placeholder='Type a message...'
-                        value={input}
+                        value={input.trim()}
                         onChange={(e) => (setinput(e.target.value), setshowEmoji(false))}
                         onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                         className='flex-1 outline-none px-3 py-2 rounded-md bg-green-100 border border-green-400'
                     />
 
-                    <img src="SendLogo.png" className='h-10 w-10 p-2 rounded-full bg-green-300 cursor-pointer' onClick={handleSendMessage} />
+                    {
+                        input && <img src="SendLogo.png" className='h-10 w-10 p-2 rounded-full bg-green-300 cursor-pointer' onClick={handleSendMessage} />
+                    }
                 </div>}
             </div>
 
@@ -247,7 +249,7 @@ const Home = () => {
                     selectedUser &&
                     <div className='lg:hidden h-screen w-screen flex flex-col bg-green-50'>
                         {/* :: Top - User Info :: */}
-                        <div className='flex items-center gap-2 bg-green-200 h-[70px] px-4 border-b border-green-500 z-10'>
+                        <div className='flex fixed items-center gap-2 bg-green-200 h-[70px] px-4 border-b border-green-500 z-10'>
                             <img src="backArrow.png" className="h-8 w-5 cursor-pointer" onClick={() => (dispatch(setSelectedUser(null)), setfrontendImage(""), setshowEmoji(false))} />
                             <img src={selectedUser?.image || "ChatlyDp.png"} className="h-11 w-11 rounded-full bg-white cursor-pointer" onClick={() => window.open(selectedUser?.image, "_blank")} />
                             {onlineUser?.includes(selectedUser?._id) && <div className='absolute bottom-0.5 left-15 h-3 w-3 rounded-full bg-green-500'></div>}
@@ -296,7 +298,9 @@ const Home = () => {
                                 className='w-full outline-none px-3 py-2 rounded-md bg-green-100 border border-green-400'
                             />
 
-                            <img src="SendLogo.png" className='h-10 w-10 p-2 rounded-full bg-green-300 cursor-pointer' onClick={handleSendMessage} />
+                            {
+                                input && <img src="SendLogo.png" className='h-10 w-10 p-2 rounded-full bg-green-300 cursor-pointer' onClick={handleSendMessage} />
+                            }
                         </div>
                     </div>
                 }
