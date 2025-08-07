@@ -95,9 +95,9 @@ const Home = () => {
     }
 
     return (
-        <div className='w-full h-[100vh] overflow-auto flex'>
+        <div className='w-[100vw] h-[100vh] overflow-auto flex'>
             {/* :: SideBar :: */}
-            <div className='lg:w-[30%] w-[100%] h-full bg-green-100 overflow-hidden flex flex-col'>
+            <div className='lg:w-[30%] w-full h-full bg-green-100 overflow-hidden flex flex-col'>
                 {/* Top */}
                 <div className='outline-0 h-[250px] w-full p-5 bg-green-800 sm:rounded-b-[100px] rounded-b-[80px] flex flex-col'>
                     <div className='mb-[15px] flex items-center gap-1'>
@@ -242,22 +242,25 @@ const Home = () => {
             </div>
 
             {/* :: MoblieSize */}
-            <div className='lg:hidden' >
+            <div className='lg:hidden h-screen' >
                 {
                     selectedUser &&
-                    <div className='h-[100vh] w-[100vw] flex flex-col justify-between bg-green-50'>
+                    <div className='lg:hidden h-screen w-screen flex flex-col bg-green-50'>
                         {/* :: Top - User Info :: */}
                         <div className='flex items-center gap-2 bg-green-200 h-[70px] px-4 border-b border-green-500 z-10'>
                             <img src="backArrow.png" className="h-8 w-5 cursor-pointer" onClick={() => (dispatch(setSelectedUser(null)), setfrontendImage(""), setshowEmoji(false))} />
                             <img src={selectedUser?.image || "ChatlyDp.png"} className="h-11 w-11 rounded-full bg-white cursor-pointer" onClick={() => window.open(selectedUser?.image, "_blank")} />
                             {onlineUser?.includes(selectedUser?._id) && <div className='absolute bottom-0.5 left-15 h-3 w-3 rounded-full bg-green-500'></div>}
-                            <h1 className='text-xl font-bold text-black'>{selectedUser?.fullName || "User"}</h1>
+                            <div className='flex flex-col justify-center'>
+                                <h1 className='text-xl font-bold text-black'>{selectedUser?.userName || "User"}</h1>
+                                <h1 className='font-semibold mt-[-5px] text-black'>{selectedUser?.fullName || "User"}</h1>
+                            </div>
                         </div>
 
                         {/* :: Middle - Scrollable Messages :: */}
                         <div
                             ref={scrollMsgMobile}
-                            className='flex-1 overflow-y-auto px-3  py-2'
+                            className='flex-1 overflow-y-auto py-2'
                             onClick={() => setshowEmoji(false)}
                         >
                             {messages?.length > 0 && messages.map(msg =>
@@ -268,7 +271,7 @@ const Home = () => {
                         </div>
 
                         {/* :: Bottom - Input Area :: */}
-                        <div className='relative px-2 py-2.5 flex items-center gap-2 border-t border-green-500 bg-green-100'>
+                        <div className='relative py-2.5 px-2 flex items-center gap-1 border-t border-green-500 bg-green-100'>
                             <input type="file" accept='image/*' ref={image} onChange={handleUploadImage} hidden />
 
                             {frontendImage && (
@@ -290,7 +293,7 @@ const Home = () => {
                                 value={input}
                                 onChange={(e) => (setinput(e.target.value), setshowEmoji(false))}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                                className='flex-1 outline-none px-3 py-2 rounded-md bg-green-100 border border-green-400'
+                                className='w-full outline-none px-3 py-2 rounded-md bg-green-100 border border-green-400'
                             />
 
                             <img src="SendLogo.png" className='h-10 w-10 p-2 rounded-full bg-green-300 cursor-pointer' onClick={handleSendMessage} />
