@@ -97,7 +97,7 @@ const Home = () => {
     return (
         <div className='w-[100vw] h-[100vh] overflow-auto flex'>
             {/* :: SideBar :: */}
-            <div className='lg:w-[30%] w-full h-full bg-green-100 overflow-hidden flex flex-col'>
+            <div className='lg:w-[30%] w-[100vw] h-full bg-green-100 overflow-hidden flex flex-col'>
                 {/* Top */}
                 <div className='outline-0 h-[250px] w-full p-5 bg-green-800 sm:rounded-b-[100px] rounded-b-[80px] flex flex-col'>
                     <div className='mb-[15px] flex items-center gap-1'>
@@ -247,9 +247,9 @@ const Home = () => {
             <div className='lg:hidden h-screen' >
                 {
                     selectedUser &&
-                    <div className='lg:hidden h-screen w-screen flex flex-col bg-green-50'>
+                    <div className='lg:hidden h-screen w-[100vw] flex flex-col bg-green-50'>
                         {/* :: Top - User Info :: */}
-                        <div className='flex fixed items-center gap-2 bg-green-200 h-[70px] px-4 border-b border-green-500 z-10'>
+                        <div className='flex items-center fixed right-0 left-0 top-0 gap-2 bg-green-200 h-[70px] px-4 border-b border-green-500 z-10'>
                             <img src="backArrow.png" className="h-8 w-5 cursor-pointer" onClick={() => (dispatch(setSelectedUser(null)), setfrontendImage(""), setshowEmoji(false))} />
                             <img src={selectedUser?.image || "ChatlyDp.png"} className="h-11 w-11 rounded-full bg-white cursor-pointer" onClick={() => window.open(selectedUser?.image, "_blank")} />
                             {onlineUser?.includes(selectedUser?._id) && <div className='absolute bottom-0.5 left-15 h-3 w-3 rounded-full bg-green-500'></div>}
@@ -262,7 +262,7 @@ const Home = () => {
                         {/* :: Middle - Scrollable Messages :: */}
                         <div
                             ref={scrollMsgMobile}
-                            className='flex-1 overflow-y-auto py-2'
+                            className='flex-1 mt-16 overflow-y-auto py-2'
                             onClick={() => setshowEmoji(false)}
                         >
                             {messages?.length > 0 && messages.map(msg =>

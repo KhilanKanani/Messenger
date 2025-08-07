@@ -43,7 +43,11 @@ function App() {
 
 
   if (isLoading) {
-    return <div className='animate-pulse flex flex-col h-[100vh] items-center justify-center bg-green-100'><p className='font-extrabold text-2xl text-green-800 font-serif'>Loading<span className='animate-ping'>...</span></p></div>
+    return <div className='flex flex-col h-[100vh] items-center justify-center bg-green-100'>
+      <div className='flex flex-col gap-2'>
+        <img src='ChatLogo.png' className='h-20 w-20 animate-pulse' />
+      </div>
+    </div>
     // return <div className='flex'>
     //   <div className='lg:w-[30%] w-[100vw] h-full bg-green-100 overflow-hidden '>
 
@@ -133,11 +137,11 @@ function App() {
     {
       path: "/",
       element:
-      <div>
-        {
-          userdata ? <Home /> : <Login />
-        }
-      </div>
+        <div>
+          {
+            userdata ? <Home /> : <Login />
+          }
+        </div>
     },
 
     {
